@@ -7,3 +7,7 @@ def sharpen_image(cls, image):
     sharpened_img = cv2.filter2D(image, -1, kernel)
 
     return sharpened_img
+
+def calculate_histogram(image):
+    hist = cv2.calcHist([image], [0], None, [256], [0, 256])
+    return hist

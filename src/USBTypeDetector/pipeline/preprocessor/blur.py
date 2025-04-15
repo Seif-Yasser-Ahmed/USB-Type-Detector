@@ -41,15 +41,19 @@ def run_blur(image, method='variance'):
     Returns:
         bool: True if the image is blurred, False otherwise.
     """
+
+    print("-- Running blur detection --")
     if method == 'variance':
         while detect_blur_variance(image, threshold=150.0):
             print("Image is blurry, sharpening...")
             image = sharpen_image(image)
+        print("-- Blur detection complete --")
         return image
     elif method == 'fft':
         while detect_blur_fft(image, size=60, thresh=10):
             print("Image is blurry, sharpening...")
             image = sharpen_image(image)
+        print("-- Blur detection complete --")
         return image
     else:
         raise ValueError("Invalid method. Use 'variance' or 'fft'.")
