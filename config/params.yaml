@@ -11,6 +11,16 @@ diff_threshold: 50
 min_fraction: 0.01
 kernel_size_salt_pepper: 3
 
+brightness_block_size: 16
+
+brightness_threshold: 30
+
+delta_hsv_fix: 30
+
+fix_gamma_low_contrast: 0.7
+fix_gamma_high_contrast: 0.2
+
+
 augmentations:
   flips:
     - horizontal_flip
@@ -63,3 +73,14 @@ augmentations:
     - brightness_50
     - brightness_100
     - brightness_150
+  
+  overlays:
+    - overlay_0.1
+    - overlay_0.2
+    - overlay_0.3
+    - overlay_0.4
+    - overlay_0.5
+    - overlay_0.6
+    - overlay_0.7
+    - overlay_0.8
+    - overlay_0.9
