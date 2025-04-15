@@ -7,6 +7,10 @@ classes_greyscale_augmented_dir: "../data/classes_greyscale_augmented/"
 classes_preprocessed_dir: "../data/classes_preprocessed/"
 output_dir: "../data/output/"
 
+diff_threshold: 50
+min_fraction: 0.01
+kernel_size_salt_pepper: 3
+
 augmentations:
   flips:
     - horizontal_flip
