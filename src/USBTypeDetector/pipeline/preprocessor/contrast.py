@@ -38,6 +38,7 @@ def fix_low_contrast(image):
     y_eq = cv2.equalizeHist(y)
     ycrcb_eq = cv2.merge((y_eq, cr, cb))
     result = cv2.cvtColor(ycrcb_eq, cv2.COLOR_YCrCb2BGR)
+    result = cv2.cvtColor(result, cv2.COLOR_BGR2GRAY)
     return result
 
 def run_contrast(image):
