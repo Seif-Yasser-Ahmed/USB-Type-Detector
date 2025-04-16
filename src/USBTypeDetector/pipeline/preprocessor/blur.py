@@ -1,9 +1,17 @@
 import cv2
 import numpy as np
+# from ..utils import Config
 
 from .helpers import sharpen_image
 
-def detect_blur_variance(image, threshold=100.0): # worked better
+from ..utils.yaml import Config
+
+cfg = Config.load()
+
+# worked better
+
+
+def detect_blur_variance(image, threshold=cfg['blur_variance_threshold']):
 
     # Compute the Laplacian
     lap = cv2.Laplacian(image, cv2.CV_64F)
@@ -11,7 +19,9 @@ def detect_blur_variance(image, threshold=100.0): # worked better
     print(f"Variance of Laplacian: {var:.2f}")
     return var < threshold
 
-def detect_blur_fft(image, size=60, thresh=10): # didn't work well
+
+# didn't work well
+def detect_blur_fft(image, size=cfg['blur_fft_size'], thresh=cfg['blur_fft_threshold']):
 
     # Compute FFT and shift zero‑freq to center
     f = np.fft.fft2(image)
@@ -30,6 +40,7 @@ def detect_blur_fft(image, size=60, thresh=10): # didn't work well
     # If too few high‑freq pixels, it's blurred
     return count > (image.shape[0] * image.shape[1] * 0.01)
 
+
 def run_blur(image, method='variance'):
     """
     Detects if an image is blurred using the specified method.
@@ -44,13 +55,13 @@ def run_blur(image, method='variance'):
 
     print("-- Running blur detection --")
     if method == 'variance':
-        while detect_blur_variance(image, threshold=150.0):
+        while detect_blur_variance(image, threshold=cfg['blur_variance_threshold']):
             print("Image is blurry, sharpening...")
             image = sharpen_image(image)
         print("-- Blur detection complete --")
         return image
     elif method == 'fft':
-        while detect_blur_fft(image, size=60, thresh=10):
+        while detect_blur_fft(image, size=cfg['blur_fft_size'], thresh=cfg['blur_fft_threshold']):
             print("Image is blurry, sharpening...")
             image = sharpen_image(image)
         print("-- Blur detection complete --")

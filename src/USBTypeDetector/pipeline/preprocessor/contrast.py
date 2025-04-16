@@ -3,6 +3,7 @@ import numpy as np
 
 from .helpers import calculate_histogram
 
+
 def detect_contrast(image):
     hist = calculate_histogram(image)
     total_pixels = image.size
@@ -26,7 +27,8 @@ def detect_contrast(image):
         return "high"
     else:
         return "normal"
-    
+
+
 def fix_low_contrast(image):
     """
     Enhances contrast using histogram equalization (applied to Y channel in YCrCb).
@@ -41,10 +43,12 @@ def fix_low_contrast(image):
     result = cv2.cvtColor(result, cv2.COLOR_BGR2GRAY)
     return result
 
+
 def run_contrast(image):
     print("-- Contrast Adjustment --")
     contrast = detect_contrast(image)
     if contrast == "low":
+        print("Low contrast detected, enhancing...")
         return fix_low_contrast(image)
     else:
         print("No contrast adjustment needed, contrast is:", contrast)

@@ -1,25 +1,15 @@
 import yaml
-
-def load_yaml(file_path):
-    with open(file_path) as f:
-        cfg = yaml.safe_load(f)
-
-    return cfg
+import importlib.resources
+from functools import lru_cache
 
 
 class Config:
-    yaml_file_path = ""
-
-    cfg = {}
-
-    @classmethod
-    def update_attrs(cls, **kwargs):
-        for key, value in kwargs.items():
-            setattr(cls, key, value)
-
-        if cls.yaml_file_path:
-            print(f"Loading YAML file from: {cls.yaml_file_path}")
-            cls.cfg = load_yaml(cls.yaml_file_path)
-
-Config.update_attrs(yaml_file_path="./config/params.yaml")
-        
+    """
+    Load and cache the params.yaml bundled alongside this module.
+    """
+    @staticmethod
+    @lru_cache(maxsize=1)
+    def load() -> dict:
+        # __package__ is "pipeline.utils" here
+        with importlib.resources.open_text(__package__, "params.yaml") as f:
+            return yaml.safe_load(f)
