@@ -4,6 +4,7 @@ data_dir: "../data/"
 classes_dir: "../data/classes/"
 classes_greyscale_dir: "../data/classes_greyscale/"
 classes_greyscale_augmented_dir: "../data/classes_greyscale_augmented/"
+classes_augmented_dir: "../data/classes_augmented/"
 classes_preprocessed_dir: "../data/classes_preprocessed/"
 output_dir: "../data/output/"
 
