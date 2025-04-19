@@ -3,12 +3,35 @@ import cv2
 import numpy as np
 
 class ImageAugmentation:
+    """
+    A class for performing various image augmentation techniques such as flipping, rotation,
+    cropping, blurring, brightness/contrast adjustment, noise addition, and wave pattern overlays.
+
+    Attributes:
+        classes_dir (list): List of directories containing class-wise images.
+        save_dir (str): Output directory where augmented images will be saved.
+    """
     def __init__(self, data_dir, save_dir):
+        """
+        Initialize the ImageAugmentation instance.
+
+        Args:
+            data_dir (list): List of class directories with images to augment.
+            save_dir (str): Directory to save the augmented images.
+        """
         self.classes_dir = data_dir
         self.save_dir = save_dir
 
 
     def augment_images_flipping(self, **kwargs):
+        """
+        Augment images by flipping them horizontally, vertically, or both.
+
+        Keyword Args:
+            horizontal_flip (bool): If True, perform horizontal flip.
+            vertical_flip (bool): If True, perform vertical flip.
+            (default): If neither is specified, perform both flips.
+        """
         key = None
         for images in self.classes_dir:
             class_base_name = os.path.basename(images)
@@ -32,6 +55,17 @@ class ImageAugmentation:
                 cv2.imwrite(flipped_img_path, flipped_img)
 
     def augment_images_rotation(self, **kwargs):
+        """
+        Augment images by rotating them by specified angles.
+
+        Keyword Args:
+            rotate_45 (bool)
+            rotate_90 (bool)
+            rotate_135 (bool)
+            rotate_225 (bool)
+            rotate_270 (bool)
+            rotate_315 (bool)
+        """
         key = None
         for images in self.classes_dir:
             class_base_name = os.path.basename(images)
@@ -70,6 +104,14 @@ class ImageAugmentation:
                 cv2.imwrite(rotated_img_path, rotated_img)
 
     def augment_images_cropping(self, **kwargs):
+        """
+        Augment images by cropping the center of the image to various sizes.
+
+        Keyword Args:
+            crop_50_percent (bool): Crop central 50% of the image.
+            crop_25_percent (bool): Crop central 25% of the image.
+            crop_10_percent (bool): Crop central 10% of the image.
+        """
         key = None
       
         for images in self.classes_dir:
@@ -97,6 +139,14 @@ class ImageAugmentation:
                 cv2.imwrite(cropped_img_path, cropped_img)
 
     def augment_images_blurring(self, **kwargs):
+        """
+        Apply Gaussian blur to images with different kernel sizes.
+
+        Keyword Args:
+            blur_5x5 (bool): Apply blur with 5x5 kernel.
+            blur_15x15 (bool): Apply blur with 15x15 kernel.
+            blur_25x25 (bool): Apply blur with 25x25 kernel.
+        """
         key = None
         
         for images in self.classes_dir:
@@ -121,8 +171,19 @@ class ImageAugmentation:
                 blurred_img_path = os.path.join(self.save_dir, class_base_name, f"blurred_{key}_{image}")
                 os.makedirs(os.path.dirname(blurred_img_path), exist_ok=True)
                 cv2.imwrite(blurred_img_path, blurred_img)
-
+    
     def augment_images_salt_pepper(self, **kwargs):
+        """
+        Add salt, pepper, or both types of noise to the images.
+
+        Keyword Args:
+            salt_only (bool): Apply only white pixels as noise.
+            pepper_only (bool): Apply only black pixels as noise.
+            salt_and_pepper (bool): Apply both salt and pepper noise.
+        
+        Notes:
+            The amount of noise and ratio is fixed at 4% total with 50-50 salt-pepper split.
+        """
         key = None
         for images in self.classes_dir:
             class_base_name = os.path.basename(images)
@@ -169,6 +230,12 @@ class ImageAugmentation:
 
 
     def augment_images_contrast(self, **kwargs):
+        """
+        Adjust image contrast by scaling pixel intensity values.
+
+        Keyword Args:
+            contrast_0.1 to contrast_3 (bool): Contrast scaling factors from 0.1 to 3.0
+        """
         key = None
         for images in self.classes_dir:
             class_base_name = os.path.basename(images)
@@ -221,7 +288,15 @@ class ImageAugmentation:
                 os.makedirs(os.path.dirname(contrast_img_path), exist_ok=True)
                 cv2.imwrite(contrast_img_path, contrast_img)
                 
+
     def augment_images_overlay(self, **kwargs):
+        """
+        Overlay a solid color layer (black or white) over the image with a given opacity.
+
+        Keyword Args:
+            mode (str): 'darken' or 'lighten'
+            opacity (float): Opacity value between 0.0 and 1.0
+        """
         mode = kwargs.get('mode', 'darken')
         opacity = kwargs.get('opacity', 0.7)
 
@@ -254,6 +329,12 @@ class ImageAugmentation:
 
 
     def augment_images_brightness(self, **kwargs):
+        """
+        Adjust image brightness by adding a constant to pixel values.
+
+        Keyword Args:
+            brightness_-100 to brightness_150 (bool): Brightness shifts from -100 to +150
+        """
         key = None
         for images in self.classes_dir:
             class_base_name = os.path.basename(images)
@@ -329,6 +410,14 @@ class ImageAugmentation:
                 
 
     def augment_images_wave(self, n_cycles=5, angle_deg=45, opacity=0.2):
+        """
+        Apply a sine wave pattern overlay on grayscale version of the image.
+
+        Args:
+            n_cycles (int): Number of sine cycles across the diagonal of the image.
+            angle_deg (float): Direction angle (in degrees) of the sine wave.
+            opacity (float): Opacity of the sine pattern, from 0.0 to 1.0.
+        """
         angle = np.deg2rad(angle_deg)
         cos_angle = np.cos(angle)
         sin_angle = np.sin(angle)
