@@ -102,3 +102,23 @@ augmentations:
     - overlay_0.7
     - overlay_0.8
     - overlay_0.9
+    
+  waves:
+    - wave_1_45
+    - wave_1_-45
+    - wave_1_90
+    - wave_1_-90
+    - wave_1_180
+    - wave_1_-180
+    - wave_2_45
+    - wave_2_-45
+    - wave_2_90
+    - wave_2_-90
+    - wave_2_180
+    - wave_2_-180
+    - wave_3_45
+    - wave_3_-45
+    - wave_3_90
+    - wave_3_-90
+    - wave_3_180
+    - wave_3_-180
