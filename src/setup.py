@@ -10,7 +10,7 @@ requirements = read_file('requirements.txt')
 
 setup(
     name="USBTypeDetector",
-    version="0.5",
+    version="0.6",
     description="A Python package to detect USB type and provide information about the connected device.",
     author="EL SAKA",
     packages=find_packages(),
