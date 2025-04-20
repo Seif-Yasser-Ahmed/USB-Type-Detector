@@ -1,3 +1,5 @@
 tmp
 /src/build/
 /src/USBTypeDetector.egg-info
+/data/
+*.png
