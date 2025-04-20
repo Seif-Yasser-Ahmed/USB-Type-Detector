@@ -26,3 +26,7 @@ def edge_detection():
 
 def morphological_operations():
     pass
+
+
+def histogram_gradients():
+    pass
