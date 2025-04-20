@@ -1,5 +1,7 @@
 import cv2
 from .conan import DetectorFixer
+from helpers import sharpen_image
+
 # Input
 # -- Image Preprocessor --
 # Greyscale
@@ -29,6 +31,7 @@ class ImagePreprocessor:
         image = cls._convert_to_grayscale(image)
         # Detect and fix noise (salt & pepper, brightness, contrast)
         image = DetectorFixer.run(image)
+        image = sharpen_image(image)
         # Apply sharpening
         # Apply thresholding (binarization)
         # save image
