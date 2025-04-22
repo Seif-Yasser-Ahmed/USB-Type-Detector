@@ -37,6 +37,7 @@ delta_hsv_fix: 30
 fix_gamma_low_contrast: 0.7
 fix_gamma_high_contrast: 0.2
 
+binarization_threshold: 127
 
 augmentations:
   flips:

@@ -1,6 +1,6 @@
 import cv2
 from .conan import DetectorFixer
-from helpers import sharpen_image
+from helpers import sharpen_image, binarize_image
 
 # Input
 # -- Image Preprocessor --
@@ -11,6 +11,7 @@ from helpers import sharpen_image
 # - Contrast
 # Sharpening
 # Thresholding (Binarization)
+
 
 class ImagePreprocessor:
 
@@ -24,7 +25,7 @@ class ImagePreprocessor:
         """
         gray_img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         return gray_img
-    
+
     @classmethod
     def preprocess(cls, image):
         # Convert to grayscale
@@ -34,5 +35,6 @@ class ImagePreprocessor:
         image = sharpen_image(image)
         # Apply sharpening
         # Apply thresholding (binarization)
+        image = binarize_image(image)
         # save image
         return image
