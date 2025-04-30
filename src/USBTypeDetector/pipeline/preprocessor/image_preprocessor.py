@@ -1,6 +1,6 @@
 import cv2
 from .conan import DetectorFixer
-from helpers import sharpen_image, binarize_image
+from .helpers import sharpen_image, binarize_image
 
 # Input
 # -- Image Preprocessor --
