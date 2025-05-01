@@ -8,8 +8,9 @@ from ..utils.yaml import Config
 from .salt_pepper import run_salt_pepper
 from .blur import run_blur
 from .contrast import run_contrast
-from .brightness import run_brightness_analysis
+#from .brightness import run_brightness_analysis
 from .helpers import sharpen_image
+from .sine_wave import run_sine_wave
 
 class DetectorFixer:
 
@@ -29,7 +30,7 @@ class DetectorFixer:
         #image = run_brightness_analysis(image)
 
         # 5. Detect and fix sine wave noise
-        #image = run_sine_wave(image)
+        image = run_sine_wave(image)
 
         # 6. Apply Sharpening
         image = sharpen_image(image)
