@@ -3,3 +3,4 @@ tmp
 /src/USBTypeDetector.egg-info
 /data/
 *.png
+*.jpg
