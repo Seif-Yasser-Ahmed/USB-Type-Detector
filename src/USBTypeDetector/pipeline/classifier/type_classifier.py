@@ -10,11 +10,11 @@ class TypeClassifier:
         self.classify_type = classification_type
 
     @classmethod
-    def run(cls, image, hist_dict, type):
+    def run(cls, image, hist_dict, type, cell_size=32):
         # Preprocess the image
         image = ImagePreprocessor.preprocess(image)
         # Extract features
-        image = FeatureExtractor.extract(image, type)
+        image = FeatureExtractor.extract(image, type, cell_size=cell_size)
         if type == 'geometry':
             # Classify using geometry-based method
             type = classify_by_geomtry(image, hist_dict)

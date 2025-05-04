@@ -11,7 +11,7 @@ class FeatureExtractor:
         pass
 
     @classmethod
-    def extract(cls, image, type):
+    def extract(cls, image, type, cell_size=32):
         """
         logic
         """
@@ -20,7 +20,7 @@ class FeatureExtractor:
         image = resize_and_pad(
             image, (640, 480), interp=cv2.INTER_AREA, pad_color=(0, 0, 0))
         if type == 'hog':
-            image = histogram_of_gradients(image)
+            image = histogram_of_gradients(image, cell_size=cell_size)
         elif type == 'geometry':
             # image = get_n_pins(image)
             # image = get_pin_positions(image)
