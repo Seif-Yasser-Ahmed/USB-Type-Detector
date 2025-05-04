@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 from ..utils.yaml import Config
+from ..extractor.geomtry_extractor import edge_detection
 cfg = Config.load()
 
 
@@ -10,6 +11,11 @@ def sharpen_image(image):
     sharpened_img = cv2.filter2D(image, -1, kernel)
 
     return sharpened_img
+
+
+def blur_image(image, blur_strength=7):
+    blurred_img = cv2.GaussianBlur(image, (blur_strength, blur_strength), 0)
+    return blurred_img
 
 
 def calculate_histogram(image):
@@ -68,3 +74,42 @@ def resize_and_pad(img, target_size, interp=cv2.INTER_AREA, pad_color=(0, 0, 0))
         value=pad_color
     )
     return padded
+
+# AI GENERATEDDDDDD But it's kinda cool
+
+
+def extract_port_roi(orig_bgr):
+    """
+    orig_bgr:    your original color (or gray) image
+    edge_mask:   binary edge image (0 background, 255 edges)
+    returns roi_bgr, (x,y,w,h)
+    """
+    edge_mask = edge_detection(orig_bgr)
+    # 1) (Optional) Close small gaps in the edge mask
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5))
+    closed = cv2.morphologyEx(edge_mask, cv2.MORPH_CLOSE, kernel, iterations=2)
+
+    # 2) Fill interior to get a solid blob
+    #    invert, flood‑fill from (0,0), invert back, OR with closed
+    inv = cv2.bitwise_not(closed)
+    h, w = inv.shape
+    flood = inv.copy()
+    mask = np.zeros((h+2, w+2), np.uint8)
+    cv2.floodFill(flood, mask, (0, 0), 255)
+    filled = cv2.bitwise_not(flood)  # now the port interior is white
+
+    blob = cv2.bitwise_or(closed, filled)
+
+    # 3) Find external contours
+    cnts, _ = cv2.findContours(
+        blob, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    if not cnts:
+        return None, None
+
+    # 4) Pick the contour with the largest area
+    c = max(cnts, key=cv2.contourArea)
+    x, y, w, h = cv2.boundingRect(c)
+
+    # 5) Crop and return
+    roi = orig_bgr[y:y+h, x:x+w].copy()
+    return roi

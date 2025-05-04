@@ -14,15 +14,7 @@ def get_n_pins():
     pass
 
 
-def get_corner_count():
-    pass
-
-
 def get_pin_positions():
-    pass
-
-
-def corner_detection():
     pass
 
 
@@ -48,7 +40,7 @@ def edge_detection(img, method='canny', sigma=cfg['canny_sigma']):
     return edges
 
 
-def morphological_operations(img, operation='dilate', kernel_size=cfg['morph_kernel_size'], iterations=cfg['morph_iterations']):
+def morphological_operations(img, operation='close', kernel_size=cfg['morph_kernel_size'], iterations=cfg['morph_iterations']):
     kernel = cv2.getStructuringElement(
         cv2.MORPH_RECT, (kernel_size, kernel_size))
 
@@ -72,7 +64,7 @@ def morphological_operations(img, operation='dilate', kernel_size=cfg['morph_ker
     return img
 
 
-def histogram_of_gradients(img, cell_size=16, bin_n=8):
+def histogram_of_gradients(img, cell_size=32, bin_n=8):
     """
     Compute a HOG-like visualization:
       – img: input BGR or grayscale image (uint8)
@@ -140,7 +132,7 @@ def histogram_of_gradients(img, cell_size=16, bin_n=8):
     return hog_img
 
 
-def harris_corner_detection(img, block_size=2, ksize=3, k=0.04, thresh=0.02, min_distance=12):
+def corner_detection_count(img, block_size=2, ksize=3, k=0.04, thresh=0.02, min_distance=12):
     if img.ndim == 2:
         img_bgr = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
         gray = img

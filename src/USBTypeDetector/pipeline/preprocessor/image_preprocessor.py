@@ -1,7 +1,7 @@
 import cv2
 from .conan import DetectorFixer
-from .helpers import sharpen_image, binarize_image
-
+from .helpers import sharpen_image, binarize_image, resize_and_pad, extract_port_roi, blur_image
+import matplotlib.pyplot as plt
 # Input
 # -- Image Preprocessor --
 # Greyscale
@@ -29,10 +29,15 @@ class ImagePreprocessor:
     @classmethod
     def preprocess(cls, image):
         # Convert to grayscale
-        image = cls._convert_to_grayscale(image)
+        # image = cls._convert_to_grayscale(image)
+        # plt.imshow(image, cmap='gray')
+        # image = resize_and_pad(image, (640, 480), interp=cv2.INTER_AREA, pad_color=(0, 0, 0))
         # Detect and fix noise (salt & pepper, brightness, contrast)
         image = DetectorFixer.run(image)
+        # plt.imshow(image, cmap='gray')
+        image = blur_image(image)
         image = sharpen_image(image)
+        image = extract_port_roi(image)
         # Apply sharpening
         # Apply thresholding (binarization)
         image = binarize_image(image)

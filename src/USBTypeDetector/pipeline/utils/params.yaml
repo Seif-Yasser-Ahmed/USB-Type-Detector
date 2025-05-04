@@ -37,6 +37,13 @@ delta_hsv_fix: 30
 fix_gamma_low_contrast: 0.7
 fix_gamma_high_contrast: 0.2
 
+# edge detection
+canny_sigma: 1.0
+
+# morphological operations
+morph_kernel_size: 5
+morph_iterations: 1
+
 binarization_threshold: 127
 
 augmentations:
