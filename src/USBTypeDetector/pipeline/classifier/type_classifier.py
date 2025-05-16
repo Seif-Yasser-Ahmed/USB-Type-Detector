@@ -20,5 +20,5 @@ class TypeClassifier:
             type = classify_by_geomtry(image, hist_dict)
         elif type == 'hog':
             type = classify_knn(image, hist_dict,
-                                metric=cv2.HISTCMP_CHISQR)
+                                k=3)
         return type
