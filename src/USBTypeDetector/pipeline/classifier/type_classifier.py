@@ -10,7 +10,7 @@ class TypeClassifier:
         self.classify_type = classification_type
 
     @classmethod
-    def run(cls, image, hist_dict, type, cell_size=32):
+    def run(cls, image, hist_dict, type='geomtry', cell_size=32):
         # Preprocess the image
         image = ImagePreprocessor.preprocess(image)
         # Extract features
