@@ -13,12 +13,15 @@ class TypeClassifier:
     def run(cls, image, hist_dict, type='geomtry', cell_size=32):
         # Preprocess the image
         image = ImagePreprocessor.preprocess(image)
+        # print(type(image))
         # Extract features
         image = FeatureExtractor.extract(image, type, cell_size=cell_size)
+        # print(type(image))
         if type == 'geometry':
             # Classify using geometry-based method
             type = classify_by_geomtry(image, hist_dict)
         elif type == 'hog':
             type = classify_knn(image, hist_dict,
-                                metric=cv2.HISTCMP_CHISQR)
+                                k=3)
+        # print(type(image))
         return type

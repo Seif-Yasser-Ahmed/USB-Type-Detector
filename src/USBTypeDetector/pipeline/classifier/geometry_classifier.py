@@ -52,9 +52,12 @@ def classify_knn(candidate_hist, hog_dict, k=3):
                 continue
             # Use correlation metric; higher values mean more similar
             # Using histogram intersection as similarity measure
-            intersection = np.sum(np.minimum(candidate_hist, record_hist))
-            total = np.sum(candidate_hist)
-            similarity = intersection / total if total > 0 else 0
+            candidate_hist_flat = candidate_hist.flatten()
+            record_hist_flat = record_hist.flatten()
+            dot_product = np.dot(candidate_hist_flat, record_hist_flat)
+            norm_candidate = np.linalg.norm(candidate_hist_flat)
+            norm_record = np.linalg.norm(record_hist_flat)
+            similarity = dot_product / (norm_candidate * norm_record) if norm_candidate and norm_record else 0
             neighbors.append((similarity, label))
     # Sort by similarity in descending order (higher correlation is better)
     neighbors.sort(key=lambda x: x[0], reverse=True)
