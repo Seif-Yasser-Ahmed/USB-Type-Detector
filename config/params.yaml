@@ -8,6 +8,9 @@ classes_augmented_dir: "../data/classes_augmented/"
 classes_preprocessed_dir: "../data/classes_preprocessed/"
 output_dir: "../data/output/"
 
+csv_path: "../data/hog_features.csv"
+
+
 # salt and pepper
 diff_threshold: 50
 min_fraction: 0.01
