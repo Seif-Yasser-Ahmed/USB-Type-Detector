@@ -6,6 +6,7 @@ classes_greyscale_dir: "../data/classes_greyscale/"
 classes_greyscale_augmented_dir: "../data/classes_greyscale_augmented/"
 classes_preprocessed_dir: "../data/classes_preprocessed/"
 output_dir: "../data/output/"
+csv_path: "../data/hog_features.csv"
 
 # salt and pepper
 diff_threshold: 50
