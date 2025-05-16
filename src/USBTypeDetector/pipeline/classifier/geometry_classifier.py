@@ -1,8 +1,9 @@
 # from ..extractor import geomtry_extractor
 import cv2
-
+import numpy as np
 
 # class geomtry_classifier:
+
 
 def classify_by_aspect_ratio():
     pass
@@ -25,20 +26,63 @@ def classify_by_geomtry():
 # @classmethod
 
 
-def classify_knn(test_hog, hist_dict, metric=cv2.HISTCMP_CHISQR):
+def classify_knn(candidate_hist, hog_dict, k=3):
     """
-    test_hog:  1D numpy array (floats)
-    hist_dict: { class_label: [hog1, hog2, ...], ...}
-    metric:    one of cv2.HISTCMP_* constants
+    Classify a candidate histogram based on KNN using cv2.compareHist.
+
+    Parameters:
+        candidate_hist (numpy.ndarray): Histogram (as a 1D array of float32) of the candidate image.
+        k (int): Number of nearest neighbors to consider.
+
+    Returns:
+        label (str): The predicted class label.
     """
-    best_label = None
-    best_score = float("inf")
-    for label, hog_list in hist_dict.items():
-        for train_hog in hog_list:
-            # convert to float32 histograms
-            d = cv2.compareHist(test_hog.astype('float32'),
-                                train_hog.astype('float32'),
-                                metric)
-            if d < best_score:
-                best_score, best_label = d, label
-    return best_label
+    # List to hold tuples of (similarity, label)
+    neighbors = []
+
+    # Loop over each class in the global hog_dict
+    for label, records in hog_dict.items():
+        for rec in records:
+            # Get the stored hog vector and convert to np.float32
+            record_hist = np.array(rec['hog_vector'], dtype=np.float32)
+            # Ensure the candidate and record have the same shape
+            print("Candidate shape:", candidate_hist.shape)
+            print("Record shape:", record_hist.shape)
+            if record_hist.shape != candidate_hist.shape:
+                continue
+            # Use correlation metric; higher values mean more similar
+            # Using histogram intersection as similarity measure
+            intersection = np.sum(np.minimum(candidate_hist, record_hist))
+            total = np.sum(candidate_hist)
+            similarity = intersection / total if total > 0 else 0
+            neighbors.append((similarity, label))
+    # Sort by similarity in descending order (higher correlation is better)
+    neighbors.sort(key=lambda x: x[0], reverse=True)
+
+    # Select top k neighbors
+    top_neighbors = neighbors[:k]
+    print("Top neighbors:", top_neighbors)
+    # Use majority vote to classify
+    votes = {}
+    for sim, vote_label in top_neighbors:
+        votes[vote_label] = votes.get(vote_label, 0) + 1
+
+    # Check if no neighbors were found
+    if not votes:
+        return "Unknown"
+
+    # Find the label(s) with the maximum vote count
+    max_votes = max(votes.values())
+    candidate_labels = [lbl for lbl,
+                        count in votes.items() if count == max_votes]
+    # If there's a tie, pick the one with highest total similarity score
+    if len(candidate_labels) > 1:
+        sim_sums = {lbl: 0 for lbl in candidate_labels}
+        for sim, vote_label in top_neighbors:
+            if vote_label in sim_sums:
+                sim_sums[vote_label] += sim
+        predicted_label = max(sim_sums.items(), key=lambda x: x[1])[0]
+    else:
+        predicted_label = candidate_labels[0]
+
+    return predicted_label
