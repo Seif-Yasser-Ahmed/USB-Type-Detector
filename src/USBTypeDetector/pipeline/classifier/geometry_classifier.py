@@ -46,8 +46,8 @@ def classify_knn(candidate_hist, hog_dict, k=3):
             # Get the stored hog vector and convert to np.float32
             record_hist = np.array(rec['hog_vector'], dtype=np.float32)
             # Ensure the candidate and record have the same shape
-            print("Candidate shape:", candidate_hist.shape)
-            print("Record shape:", record_hist.shape)
+            # print("Candidate shape:", candidate_hist.shape)
+            # print("Record shape:", record_hist.shape)
             if record_hist.shape != candidate_hist.shape:
                 continue
             # Use correlation metric; higher values mean more similar
@@ -64,7 +64,7 @@ def classify_knn(candidate_hist, hog_dict, k=3):
 
     # Select top k neighbors
     top_neighbors = neighbors[:k]
-    print("Top neighbors:", top_neighbors)
+    # print("Top neighbors:", top_neighbors)
     # Use majority vote to classify
     votes = {}
     for sim, vote_label in top_neighbors:

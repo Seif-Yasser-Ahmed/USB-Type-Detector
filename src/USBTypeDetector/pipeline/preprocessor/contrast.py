@@ -45,12 +45,13 @@ def fix_low_contrast(image):
 
 
 def run_contrast(image):
-    print("-- Contrast Adjustment --")
+    # print("-- Contrast Adjustment --")
     contrast = detect_contrast(image)
     if contrast == "low":
-        print("Low contrast detected, enhancing...")
+        # print("Low contrast detected, enhancing...")
         return fix_low_contrast(image)
     else:
-        print("No contrast adjustment needed, contrast is:", contrast)
-    print("-- Contrast Adjustment Complete --")
+        # print("No contrast adjustment needed, contrast is:", contrast)
+        pass
+    # print("-- Contrast Adjustment Complete --")
     return image

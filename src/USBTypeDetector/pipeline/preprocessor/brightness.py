@@ -47,7 +47,7 @@ def detect_global_brightness_percentile(hist, threshold=cfg['brightness_threshol
     cdf = hist.cumsum() / hist.sum()
     dark_level = np.searchsorted(cdf, 0.05)    # 5th percentile
     bright_level = np.searchsorted(cdf, 0.95)  # 95th percentile
-    print(f"dark_level: {dark_level}, bright_level: {bright_level}")
+    # print(f"dark_level: {dark_level}, bright_level: {bright_level}")
     if bright_level < 255-threshold:
         return "low brightness"
     elif dark_level > threshold:
@@ -186,7 +186,7 @@ def local_gamma_correction_blocks(image, block_size=cfg['brightness_block_size']
 
 
 def run_brightness_analysis(image, method="global", detector="percentile", fixer="stretch"):
-    print("-- Brightness analysis --")
+    # print("-- Brightness analysis --")
     brightness_level = "balanced"
     if method == "global":
         if detector == "dark-channels":
@@ -198,7 +198,7 @@ def run_brightness_analysis(image, method="global", detector="percentile", fixer
         elif detector == "percentile":
             brightness_level = detect_global_brightness_percentile(
                 hist=calculate_histogram(image), threshold=cfg['brightness_threshold'])
-        print(f"Brightness level: {brightness_level}")
+        # print(f"Brightness level: {brightness_level}")
         if fixer == "gamma":
             if brightness_level == "low brightness":
                 image = global_gamma_correction(
@@ -214,7 +214,7 @@ def run_brightness_analysis(image, method="global", detector="percentile", fixer
             elif brightness_level == "high brightness":
                 image = fix_low_brightness_stretch(
                     image, low_pct=cfg['brightness_stretch_high_pct'], high_pct=cfg['brightness_stretch_low_pct'])
-                print("Image brightness fixed using stretch method.")
+                # print("Image brightness fixed using stretch method.")
 
     elif method == "local":
         if detector == "blocks":
@@ -228,5 +228,5 @@ def run_brightness_analysis(image, method="global", detector="percentile", fixer
     else:
         raise ValueError("Invalid method. Choose 'global' or 'local'.")
 
-    print("-- End of brightness analysis --")
+    # print("-- End of brightness analysis --")
     return image

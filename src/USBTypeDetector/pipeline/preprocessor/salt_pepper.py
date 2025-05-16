@@ -48,11 +48,11 @@ def fix_salt_pepper(image, noise_type, kernel_size=cfg["kernel_size_salt_pepper"
 
 
 def run_salt_pepper(image, kernel_size=cfg["kernel_size_salt_pepper"], diff_threshold=cfg["diff_threshold"], min_fraction=cfg["min_fraction"]):
-    print(
-        f"-- Detecting salt and pepper noise with kernel size: {kernel_size}, diff threshold: {diff_threshold}, min fraction: {min_fraction} --")
+    # print(
+    #     f"-- Detecting salt and pepper noise with kernel size: {kernel_size}, diff threshold: {diff_threshold}, min fraction: {min_fraction} --")
     noise_type = detect_salt_pepper_noise(
         image, kernel_size, diff_threshold, min_fraction)
-    print(f"Detected noise type: {noise_type}")
+    # print(f"Detected noise type: {noise_type}")
     fixed_image = fix_salt_pepper(image, noise_type, kernel_size)
-    print("-- Salt and pepper noise fixed --")
+    # print("-- Salt and pepper noise fixed --")
     return fixed_image
