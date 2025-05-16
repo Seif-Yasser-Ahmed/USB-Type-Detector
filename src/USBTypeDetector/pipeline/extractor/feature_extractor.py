@@ -18,7 +18,7 @@ class FeatureExtractor:
         image = edge_detection(image)
         image = morphological_operations(image)
         image = resize_and_pad(
-            image, (640, 480), interp=cv2.INTER_AREA, pad_color=(0, 0, 0))
+            image, (617, 466), interp=cv2.INTER_AREA, pad_color=(0, 0, 0))
         if type == 'hog':
             image = histogram_of_gradients(image, cell_size=cell_size)
         elif type == 'geometry':
