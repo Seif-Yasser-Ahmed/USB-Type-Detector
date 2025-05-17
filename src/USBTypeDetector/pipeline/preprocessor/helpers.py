@@ -75,9 +75,6 @@ def resize_and_pad(img, target_size, interp=cv2.INTER_AREA, pad_color=(0, 0, 0))
     )
     return padded
 
-# AI GENERATEDDDDDD But it's kinda cool
-
-
 def extract_port_roi(orig_bgr):
     """
     orig_bgr:    your original color (or gray) image
